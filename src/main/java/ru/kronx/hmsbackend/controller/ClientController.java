@@ -21,12 +21,8 @@ public class ClientController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Client>> getAll() {
-        try {
             List<Client> clients = clientService.getAll();
             return !clients.isEmpty() ? ResponseEntity.ok(clients) : new ResponseEntity("Нет никаких клиентов", HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity("Некоректный userId", HttpStatus.BAD_REQUEST);
-        }
     }
 
     @GetMapping("/")

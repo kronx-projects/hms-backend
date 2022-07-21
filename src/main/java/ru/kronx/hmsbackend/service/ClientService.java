@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class ClientService {
-
+    private static final Long EMPTY_DEFAULT_ID = 0L;
     private final ClientRepository repository;
 
     public ClientService(ClientRepository repository) {
@@ -28,17 +28,17 @@ public class ClientService {
     }
 
     public Client createClient(Client client) throws EmptyRequeredFieldException {
-        checkRequredFieldOfClient(client, OperationModify.CREATE);
+        checkRequiredFieldOfClient(client, OperationModify.CREATE);
         return repository.save(client);
     }
 
     public Client updateClient(Client client) throws EmptyRequeredFieldException {
-        checkRequredFieldOfClient(client, OperationModify.UPDATE);
+        checkRequiredFieldOfClient(client, OperationModify.UPDATE);
         return repository.save(client);
     }
 
     public void deleteClient(Long id) throws NoEntityException {
-
+        //Если
         repository.findById(id)
                 .orElseThrow(() -> new NoEntityException(id));
 
@@ -46,20 +46,20 @@ public class ClientService {
 
     }
 
-    public void checkRequredFieldOfClient(Client client, OperationModify operationModify) throws EmptyRequeredFieldException {
+    public void checkRequiredFieldOfClient(Client client, OperationModify operationModify) throws EmptyRequeredFieldException {
         if (operationModify == OperationModify.UPDATE
-                && (client.getId() == null || client.getId() == 0)) {
-            throw new EmptyRequeredFieldException("Некорректный Id");
+                && (client.getId().equals(EMPTY_DEFAULT_ID))) {
+            throw new EmptyRequeredFieldException("Некорректный индентификатор клиента");
         }
         if (operationModify == OperationModify.CREATE
-                && (client.getId() != null && client.getId() != 0)) {
-            throw new EmptyRequeredFieldException("Некорректный Id");
+                && (!client.getId().equals(EMPTY_DEFAULT_ID))) {
+            throw new EmptyRequeredFieldException("Индентификатор генерируется автоматически");
         }
-        if (client.getName().isEmpty() || client.getName().isBlank()) {
+        if (client.getName().isBlank()) {
             throw new EmptyRequeredFieldException("Укажите имя");
         }
-        if (client.getSurname().isEmpty() || client.getSurname().isBlank()) {
-            throw new EmptyRequeredFieldException("Укажите ФИО");
+        if (client.getSurname().isBlank()) {
+            throw new EmptyRequeredFieldException("Укажите фамилию");
         }
     }
 }
