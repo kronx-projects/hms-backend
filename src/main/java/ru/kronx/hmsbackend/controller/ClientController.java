@@ -48,6 +48,14 @@ public class ClientController {
         }
     }
 
+    @PostMapping("/new")
+    public ResponseEntity createCategory(@RequestBody Client client) {
+        try {
+            return ResponseEntity.ok(clientService.createClient(client));
+        } catch (EmptyRequeredFieldException e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteClient(@PathVariable("id") Long id) {
