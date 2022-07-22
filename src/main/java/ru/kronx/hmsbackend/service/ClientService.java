@@ -1,5 +1,6 @@
 package ru.kronx.hmsbackend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kronx.hmsbackend.entity.Client;
 import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
@@ -12,11 +13,8 @@ import java.util.List;
 @Service
 public class ClientService {
     private static final Long EMPTY_DEFAULT_ID = 0L;
-    private final ClientRepository repository;
-
-    public ClientService(ClientRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private ClientRepository repository;
 
     public List<Client> getAll() {
         return repository.findAll();
@@ -38,12 +36,10 @@ public class ClientService {
     }
 
     public void deleteClient(Long id) throws NoEntityException {
-        //Если
         repository.findById(id)
                 .orElseThrow(() -> new NoEntityException(id));
 
         repository.deleteById(id);
-
     }
 
     public void checkRequiredFieldOfClient(Client client, OperationModify operationModify) throws EmptyRequeredFieldException {

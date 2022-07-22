@@ -21,14 +21,14 @@ public class ClientController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Client>> getAll() {
-            List<Client> clients = clientService.getAll();
-            return !clients.isEmpty() ? ResponseEntity.ok(clients) : new ResponseEntity("Нет никаких клиентов", HttpStatus.NOT_FOUND);
+        List<Client> clients = clientService.getAll();
+        return !clients.isEmpty() ? ResponseEntity.ok(clients) : new ResponseEntity("Нет никаких клиентов", HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Client> findById(@RequestParam(value = "id", defaultValue = "null") String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Client> findById(@PathVariable long id) {
         try {
-            return ResponseEntity.ok(clientService.findById(Long.parseLong(id)));
+            return ResponseEntity.ok(clientService.findById(id));
         } catch (NoEntityException e) {
             return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
         }
