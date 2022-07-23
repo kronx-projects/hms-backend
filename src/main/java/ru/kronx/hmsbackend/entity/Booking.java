@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -39,10 +38,10 @@ public class Booking {
     private String desription;
 
     @Column(name = "children")
-    private BigDecimal children;
+    private Integer children;
 
     @Column(name = "adults", nullable = false)
-    private BigDecimal adults;
+    private Integer adults;
 
     @Override
     public boolean equals(Object o) {
