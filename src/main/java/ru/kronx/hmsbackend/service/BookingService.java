@@ -7,7 +7,10 @@ import ru.kronx.hmsbackend.entity.Client;
 import ru.kronx.hmsbackend.exception.NoEntityException;
 import ru.kronx.hmsbackend.repo.BookingRepository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -19,8 +22,12 @@ public class BookingService {
         return repository.findAll();
     }
 
-    public List<Booking> findByClient(Client client) {
+    public Optional<List<Booking>> findByClient(Client client) {
         return repository.findByClient(client);
+    }
+    
+    public List<Booking> findByDateBetweenStartAndEnd(LocalDate dateStart, LocalDate dateEnd) {
+		return getAll().stream().filter(booking -> booking.getDateStart().isBefore(dateEnd) || booking.getDateEnd().isAfter(dateStart)).collect(Collectors.toList());
     }
 
     public Booking createBooking(Booking booking) {
