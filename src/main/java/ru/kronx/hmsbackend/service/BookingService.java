@@ -27,7 +27,7 @@ public class BookingService {
     }
     
     public List<Booking> findByDateBetweenStartAndEnd(LocalDate dateStart, LocalDate dateEnd) {
-		return getAll().stream().filter(booking -> booking.getDateStart().isBefore(dateEnd) || booking.getDateEnd().isAfter(dateStart)).collect(Collectors.toList());
+		return getAll().stream().filter(booking -> booking.getDateStart().isBefore(dateEnd) && booking.getDateEnd().isAfter(dateStart)).collect(Collectors.toList());
     }
 
     public Booking createBooking(Booking booking) {
