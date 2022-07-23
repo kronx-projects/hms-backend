@@ -1,0 +1,59 @@
+package ru.kronx.hmsbackend.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Objects;
+
+@Entity
+@Table(name = "booking", schema = "bookingsystem")
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+public class Booking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
+    @Column(name = "room_id", nullable = false)
+    private Long roomId;
+
+    @Column(name = "date_start", nullable = false)
+    private LocalDate dateStart;
+
+    @Column(name = "date_end", nullable = false)
+    private LocalDate dateEnd;
+
+    @Column(name = "desription", length = 512)
+    private String desription;
+
+    @Column(name = "children")
+    private BigDecimal children;
+
+    @Column(name = "adults", nullable = false)
+    private BigDecimal adults;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
+        return id.equals(booking.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
