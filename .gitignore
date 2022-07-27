@@ -9,3 +9,14 @@ target
 mvnw
 mvnw.cmd
 pom.xml
+
+##############################
+## IntelliJ
+##############################
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
