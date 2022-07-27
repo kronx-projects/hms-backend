@@ -12,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-	Optional<List<Booking>> findByClient(Client client);
+	List<Booking> findByClient(Client client);
 	
-	Optional<List<Booking>> findByDateStart(LocalDate dateStart);
+	List<Booking> findByDateStart(LocalDate dateStart);
 	
-	Optional<List<Booking>> findByDateEnd(LocalDate dateEnd);
+	List<Booking> findByDateEnd(LocalDate dateEnd);
 }
 
