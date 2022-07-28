@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-	List<Booking> findByClient(Client client);
+	List<Booking> findByClientId(Long clientId);
 	
 	List<Booking> findByDateStart(LocalDate dateStart);
 	

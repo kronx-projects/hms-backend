@@ -3,11 +3,12 @@ package ru.kronx.hmsbackend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kronx.hmsbackend.entity.Client;
-import ru.kronx.hmsbackend.entity.Booking;
+import ru.kronx.hmsbackend.entity.*;
+import ru.kronx.hmsbackend.exception.*;
 import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
 import ru.kronx.hmsbackend.exception.NoEntityException;
 import ru.kronx.hmsbackend.service.BookingService;
+import ru.kronx.hmsbackend.service.dto.*;
 
 import java.util.List;
 
@@ -21,19 +22,35 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getAll() {
-        List<Booking> bookings = service.getAll();
-        return !bookings.isEmpty() ? ResponseEntity.ok(bookings) : new ResponseEntity("Нет никаких броней", HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<ClientBookingsDTO>> getAll() {
+    	try {
+    		return ResponseEntity.ok(service.getAll());
+    	} catch (BookingsEmptyException e) {
+    		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    	}
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> findByClient(@PathVariable Long id) {
+    public ResponseEntity<Booking> findById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/{client}")
-    public ResponseEntity<List<Booking>> findByClient(@PathVariable Client client) {
-        return ResponseEntity.ok(service.findByClient(client));
+    @GetMapping("/{clientId}")
+    public ResponseEntity<List<ClientBookingsDTO>> findByClient(@PathVariable String clientId) {
+    	try {
+    		return ResponseEntity.ok(service.findByClient(clientId));
+    	} catch (BookingsEmptyException e) {
+    		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @GetMapping("/{dates}")
+    public ResponseEntity<List<ClientBookingsDTO>> findByDates(@PathVariable String dates) {
+    	try {
+    		return ResponseEntity.ok(service.findByDateBetweenStartAndEnd(dates));
+    	} catch (BookingsEmptyException e) {
+    		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    	}
     }
 
     @PutMapping("/update")

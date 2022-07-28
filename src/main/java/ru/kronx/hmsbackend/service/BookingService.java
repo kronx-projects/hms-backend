@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kronx.hmsbackend.entity.Booking;
 import ru.kronx.hmsbackend.entity.Client;
-import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
-import ru.kronx.hmsbackend.exception.NoEntityException;
+import ru.kronx.hmsbackend.exception.*;
 import ru.kronx.hmsbackend.repo.BookingRepository;
+import ru.kronx.hmsbackend.service.dto.*;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class BookingService {
@@ -21,20 +20,32 @@ public class BookingService {
     @Autowired
     private BookingRepository repository;
 
-    public List<Booking> getAll() {
-        return repository.findAll();
+    public List<ClientBookingsDTO> getAll() throws BookingsEmptyException {
+    	List<Booking> bookings = repository.findAll();
+    	if (bookings.isEmpty()) throw new BookingsEmptyException();
+    	return mapping(bookings);
     }
     
     public Booking findById(Long id) {
         return repository.findById(id).get();
     }
 
-    public List<Booking> findByClient(Client client) {
-        return repository.findByClient(client);
+    public List<ClientBookingsDTO> findByClient(String clientId) throws BookingsEmptyException {
+    	List<Booking> bookings = repository.findByClientId(Long.parseLong(clientId));
+    	if (bookings.isEmpty()) throw new BookingsEmptyException(clientId);
+        return mapping(bookings);
     }
     
-    public List<Booking> findByDateBetweenStartAndEnd(LocalDate dateStart, LocalDate dateEnd) {
-		return getAll().stream().filter(booking -> booking.getDateStart().isBefore(dateEnd) && booking.getDateEnd().isAfter(dateStart)).collect(Collectors.toList());
+    public List<ClientBookingsDTO> findByDateBetweenStartAndEnd(String dates) throws BookingsEmptyException {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	String[] stringDates = dates.split(" ");
+    	LocalDate start = LocalDate.parse(stringDates[0], formatter);
+    	LocalDate end = LocalDate.parse(stringDates[1], formatter);
+		List<Booking> bookings = repository.findAll().stream()
+				.filter(booking -> booking.getDateStart().isBefore(start) && booking.getDateEnd().isAfter(end))
+				.toList();
+		if (bookings.isEmpty()) throw new BookingsEmptyException(start, end);
+		return mapping(bookings);
     }
 
     public Booking createBooking(Booking booking) throws EmptyRequeredFieldException {
@@ -52,6 +63,21 @@ public class BookingService {
                 .orElseThrow(() -> new NoEntityException(id));
 
         repository.deleteById(id);
+    }
+    
+    private List<ClientBookingsDTO> mapping(List<Booking> bookings) {
+    	Map<Long, ClientBookingsDTO> result = new HashMap<>();
+    	bookings.forEach(booking -> {
+    		Client client = booking.getClient();
+    		BookingDTO bookingDTO = new BookingDTO(booking.getId(), booking.getDateStart()
+            		, booking.getDateEnd(), client.getName(), booking.getDescription());
+    		if (result.containsKey(client.getId())) {
+    			result.get(client.getId()).getList().add(bookingDTO);
+    		} else {
+    			result.put(client.getId(), new ClientBookingsDTO(client.getId(), "blue", bookingDTO));
+    		}
+    	});
+        return result.values().stream().toList();
     }
     
     public void checkRequiredFieldOfBooking(Booking booking, OperationModify operationModify) throws EmptyRequeredFieldException {

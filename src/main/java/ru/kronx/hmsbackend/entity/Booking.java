@@ -34,8 +34,8 @@ public class Booking {
     @Column(name = "date_end", nullable = false)
     private LocalDate dateEnd;
 
-    @Column(name = "desription", length = 512)
-    private String desription;
+    @Column(name = "description", length = 512)
+    private String description;
 
     @Column(name = "children")
     private Integer children;
