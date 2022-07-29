@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.kronx.hmsbackend.entity.Booking;
 import ru.kronx.hmsbackend.entity.Client;
 import ru.kronx.hmsbackend.exception.*;
-import ru.kronx.hmsbackend.repo.BookingRepository;
+import ru.kronx.hmsbackend.repo.*;
 import ru.kronx.hmsbackend.service.dto.*;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
@@ -19,6 +19,9 @@ public class BookingService {
 	
     @Autowired
     private BookingRepository repository;
+    
+    @Autowired
+    private ClientRepository clientRepository;
 
     public List<ClientBookingsDTO> getAll() throws BookingsEmptyException {
     	List<Booking> bookings = repository.findAll();
@@ -26,23 +29,29 @@ public class BookingService {
     	return mapping(bookings);
     }
     
-    public Booking findById(Long id) {
-        return repository.findById(id).get();
+    public List<ClientBookingsDTO> findById(Long id) throws NoEntityException {
+    	try {
+    		return mapping(List.of(repository.findById(id).get()));
+    	} catch (NoSuchElementException e) {
+    		throw new NoEntityException(id);
+    	}
     }
 
-    public List<ClientBookingsDTO> findByClient(String clientId) throws BookingsEmptyException {
-    	List<Booking> bookings = repository.findByClientId(Long.parseLong(clientId));
-    	if (bookings.isEmpty()) throw new BookingsEmptyException(clientId);
-        return mapping(bookings);
+    public List<ClientBookingsDTO> findByClient(Long clientId) throws BookingsEmptyException {
+    	try {
+    		return mapping(repository.findByClient(clientRepository.findById(clientId).get()));
+    	} catch (NoSuchElementException e) {
+    		throw new BookingsEmptyException(clientId);
+    	}
     }
     
     public List<ClientBookingsDTO> findByDateBetweenStartAndEnd(String dates) throws BookingsEmptyException {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    	String[] stringDates = dates.split(" ");
+    	String[] stringDates = dates.split("[ %,]");
     	LocalDate start = LocalDate.parse(stringDates[0], formatter);
     	LocalDate end = LocalDate.parse(stringDates[1], formatter);
 		List<Booking> bookings = repository.findAll().stream()
-				.filter(booking -> booking.getDateStart().isBefore(start) && booking.getDateEnd().isAfter(end))
+				.filter(booking -> booking.getDateStart().isBefore(end) && booking.getDateEnd().isAfter(start))
 				.toList();
 		if (bookings.isEmpty()) throw new BookingsEmptyException(start, end);
 		return mapping(bookings);
@@ -70,9 +79,9 @@ public class BookingService {
     	bookings.forEach(booking -> {
     		Client client = booking.getClient();
     		BookingDTO bookingDTO = new BookingDTO(booking.getId(), booking.getDateStart()
-            		, booking.getDateEnd(), client.getName(), booking.getDescription());
+            		, booking.getDateEnd(), client.getName(), client.getSurname(), booking.getDescription());
     		if (result.containsKey(client.getId())) {
-    			result.get(client.getId()).getList().add(bookingDTO);
+    			result.get(client.getId()).getBookings().add(bookingDTO);
     		} else {
     			result.put(client.getId(), new ClientBookingsDTO(client.getId(), "blue", bookingDTO));
     		}

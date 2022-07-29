@@ -31,20 +31,24 @@ public class BookingController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<List<ClientBookingsDTO>> findById(@PathVariable Long id) {
+    	try {
+    		return ResponseEntity.ok(service.findById(id));
+    	} catch (NoEntityException e) {
+    		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    	}
     }
 
-    @GetMapping("/{clientId}")
-    public ResponseEntity<List<ClientBookingsDTO>> findByClient(@PathVariable String clientId) {
+    @GetMapping("/client/{id}")
+    public ResponseEntity<List<ClientBookingsDTO>> findByClient(@PathVariable Long id) {
     	try {
-    		return ResponseEntity.ok(service.findByClient(clientId));
+    		return ResponseEntity.ok(service.findByClient(id));
     	} catch (BookingsEmptyException e) {
     		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     	}
     }
     
-    @GetMapping("/{dates}")
+    @GetMapping("/dates/{dates}")
     public ResponseEntity<List<ClientBookingsDTO>> findByDates(@PathVariable String dates) {
     	try {
     		return ResponseEntity.ok(service.findByDateBetweenStartAndEnd(dates));

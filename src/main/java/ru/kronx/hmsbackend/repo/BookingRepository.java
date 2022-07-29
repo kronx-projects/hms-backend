@@ -11,11 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-
-	List<Booking> findByClientId(Long clientId);
-	
-	List<Booking> findByDateStart(LocalDate dateStart);
-	
-	List<Booking> findByDateEnd(LocalDate dateEnd);
+	List<Booking> findByClient(Client client);
 }
 

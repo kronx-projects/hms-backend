@@ -9,8 +9,8 @@ public class BookingsEmptyException extends Exception {
 		super("Отсутствуют актуальные брони");
 	}
 	
-	public BookingsEmptyException(String clientId) {
-		super(String.format("У клиента %d отсутствуют актуальные брони", clientId));
+	public BookingsEmptyException(Long clientId) {
+		super(String.format("У клиента c id %d отсутствуют актуальные брони", clientId));
 	}
 	
 	public BookingsEmptyException(LocalDate start, LocalDate end) {

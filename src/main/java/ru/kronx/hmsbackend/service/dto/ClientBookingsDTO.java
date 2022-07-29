@@ -9,16 +9,16 @@ import lombok.Getter;
 public class ClientBookingsDTO {
 	private final String name;
 	private final String backgroundColor;
-	private final List<BookingDTO> list;
+	private final List<BookingDTO> bookings;
 	
 	public ClientBookingsDTO(Long clientId, String color) {
 		name = clientId.toString();
 		backgroundColor = color;
-		list = new ArrayList<>();
+		bookings = new ArrayList<>();
 	}
 	
 	public ClientBookingsDTO(Long clientId, String color, BookingDTO bookingDTO) {
 		this(clientId, color);
-		list.add(bookingDTO);
+		bookings.add(bookingDTO);
 	}
 }
