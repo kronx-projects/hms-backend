@@ -16,9 +16,9 @@ public class RequestBooking implements TelegramMessageDTO {
     private static final String EMPTY_STRING = "";
     private static final int EMPTY_INT = 0;
     private static final Calendar EMPTY_CALENDAR = new GregorianCalendar(2000, 0, 01);
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Calendar dataStart;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Calendar dataEnd;
     private String numberType;
     private String name;
@@ -33,8 +33,8 @@ public class RequestBooking implements TelegramMessageDTO {
     public RequestBooking(@JsonProperty("date-start") Calendar dataStart,
                           @JsonProperty("date-end") Calendar dataEnd,
                           @JsonProperty("type") String numberType,
-                          @JsonProperty("name") String name,
-                          @JsonProperty("surname") String surname,
+                          @JsonProperty("firstName") String name,
+                          @JsonProperty("lastName") String surname,
                           @JsonProperty("adults") Integer amountAdults,
                           @JsonProperty("children") Integer amountChildren,
                           @JsonProperty("phone-number") String phoneNumber,
@@ -102,13 +102,13 @@ public class RequestBooking implements TelegramMessageDTO {
         return "<b>Новый запрос на бронирование</b>" + '\n' +
                 "<b>Дата заезда: </b><i>" + getDateFormat(dataStart) + "</i>\n" +
                 "<b>Дата выезда: </b><i>" + getDateFormat(dataEnd) + "</i>\n" +
-                "<b>Тип номера: </b><i>" + numberType + "</i>\n" +
-                "<b>Имя: </b><i>" + name + "</i>\n" +
-                "<b>Фамилия: </b><i>" + surname + "</i>\n" +
-                "<b>Детей: </b><i>" + getAmountChildren() + "</i>\n" +
+                "<b>Тип номера: </b><i>" + getPhoneNumber() + "</i>\n" +
+                "<b>Имя: </b><i>" + getName() + "</i>\n" +
+                "<b>Фамилия: </b><i>" + getSurname() + "</i>\n" +
                 "<b>Взрослых: </b><i>" + getAmountAdults() + "</i>\n" +
-                "<b>Номер телефона: </b><i>" + phoneNumber + "</i>\n" +
-                "<b>Мессанжер: </b><i>" + messenger + "</i>\n" +
-                "<b>Коментарий: </b><i>" + comment + "</i>\n";
+                "<b>Детей: </b><i>" + getAmountChildren() + "</i>\n" +
+                "<b>Номер телефона: </b><i>" + getPhoneNumber() + "</i>\n" +
+                "<b>Мессанжер: </b><i>" + getMessenger() + "</i>\n" +
+                "<b>Коментарий: </b><i>" + getComment() + "</i>\n";
     }
 }
