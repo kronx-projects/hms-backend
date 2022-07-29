@@ -1,9 +1,9 @@
 package ru.kronx.hmsbackend.service;
 
-import ru.kronx.hmsbackend.entity.Request;
+import ru.kronx.hmsbackend.dto.TelegramMessageDTO;
 
 public interface TelegramMessageService {
 
-    public void sendMessage(Request object);
+    public void sendMessage(TelegramMessageDTO telegramMessageDTO);
 
 }

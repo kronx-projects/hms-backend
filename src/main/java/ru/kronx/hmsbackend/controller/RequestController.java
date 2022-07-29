@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kronx.hmsbackend.entity.HotelRoom;
-import ru.kronx.hmsbackend.entity.Request;
-import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
+import ru.kronx.hmsbackend.dto.impl.RequestBooking;
 import ru.kronx.hmsbackend.service.TelegramMessageService;
 
 @RestController
@@ -15,8 +13,8 @@ public class RequestController {
     @Autowired
     TelegramMessageService telegramMessageService;
     @PostMapping("/new-request")
-    public ResponseEntity addNewRequest(@RequestBody Request entity) {
-        telegramMessageService.sendMessage(entity);
+    public ResponseEntity addNewRequest(@RequestBody RequestBooking requestBooking) {
+        telegramMessageService.sendMessage(requestBooking);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

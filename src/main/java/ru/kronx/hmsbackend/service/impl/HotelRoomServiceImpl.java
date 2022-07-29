@@ -1,4 +1,4 @@
-package ru.kronx.hmsbackend.service;
+package ru.kronx.hmsbackend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import ru.kronx.hmsbackend.entity.HotelRoom;
 import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
 import ru.kronx.hmsbackend.exception.NoEntityException;
 import ru.kronx.hmsbackend.repo.HotelRoomRepository;
+import ru.kronx.hmsbackend.service.HotelRoomService;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
 import java.util.List;
