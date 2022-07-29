@@ -11,9 +11,9 @@ import ru.kronx.hmsbackend.service.TelegramMessageService;
 public class TelegramMessageServiceImpl implements TelegramMessageService {
 
     private RestTemplate restTemplate;
-    private final String TOKEN = "5452392244:AAHFKlwA9iHjoB0dcvGELVyXP7vGzc6Du-Q";
+    private final String TOKEN = "XXXX";
     private final String URL = "https://api.telegram.org/bot" + TOKEN + "/sendMessage";
-    private final String CHAT_ID = "-1001682475832";
+    private final String CHAT_ID = "XXXX";
 
     public TelegramMessageServiceImpl() {
         this.restTemplate = new RestTemplate();
