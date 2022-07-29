@@ -1,4 +1,4 @@
-package ru.kronx.hmsbackend.service;
+package ru.kronx.hmsbackend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import ru.kronx.hmsbackend.entity.RoomType;
 import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
 import ru.kronx.hmsbackend.exception.NoEntityException;
 import ru.kronx.hmsbackend.repo.RoomTypeRepository;
+import ru.kronx.hmsbackend.service.RoomTypeService;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
 import java.util.List;

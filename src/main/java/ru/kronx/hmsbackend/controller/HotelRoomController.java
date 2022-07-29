@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kronx.hmsbackend.entity.HotelRoom;
 import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
 import ru.kronx.hmsbackend.exception.NoEntityException;
-import ru.kronx.hmsbackend.service.HotelRoomServiceImpl;
+import ru.kronx.hmsbackend.service.impl.HotelRoomServiceImpl;
 
 import java.util.List;
 
