@@ -9,3 +9,6 @@ target
 mvnw
 mvnw.cmd
 pom.xml
+/HELP.md
+/HMS-backend.iml
+/.idea/
