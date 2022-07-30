@@ -2,9 +2,9 @@
 .settings
 bin
 resources
+src/main/java/resources
 target
 .classpath
-.gitignore
 .project
 mvnw
 mvnw.cmd

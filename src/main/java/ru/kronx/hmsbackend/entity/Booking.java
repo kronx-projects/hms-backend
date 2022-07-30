@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -29,13 +29,13 @@ public class Booking {
     private Long roomId;
 
     @Column(name = "date_start", nullable = false)
-    private LocalDate dateStart;
+    private LocalDateTime dateStart;
 
     @Column(name = "date_end", nullable = false)
-    private LocalDate dateEnd;
+    private LocalDateTime dateEnd;
 
-    @Column(name = "desription", length = 512)
-    private String desription;
+    @Column(name = "description", length = 512)
+    private String description;
 
     @Column(name = "children")
     private Integer children;
