@@ -1,6 +1,6 @@
 package ru.kronx.hmsbackend.exception;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class BookingsEmptyException extends Exception {
@@ -13,8 +13,8 @@ public class BookingsEmptyException extends Exception {
 		super(String.format("У клиента c id %d отсутствуют актуальные брони", clientId));
 	}
 	
-	public BookingsEmptyException(LocalDate start, LocalDate end) {
-		super(String.format("с %s по %s актуальные брони отсутствуют", start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-				, end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+	public BookingsEmptyException(LocalDateTime start, LocalDateTime end) {
+		super(String.format("с %s по %s актуальные брони отсутствуют", start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+				, end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
 	}
 }

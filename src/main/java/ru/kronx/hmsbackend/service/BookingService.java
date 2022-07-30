@@ -9,7 +9,7 @@ import ru.kronx.hmsbackend.repo.*;
 import ru.kronx.hmsbackend.service.dto.*;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -46,10 +46,10 @@ public class BookingService {
     }
     
     public List<ClientBookingsDTO> findByDateBetweenStartAndEnd(String dates) throws BookingsEmptyException {
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     	String[] stringDates = dates.split("[ %,]");
-    	LocalDate start = LocalDate.parse(stringDates[0], formatter);
-    	LocalDate end = LocalDate.parse(stringDates[1], formatter);
+    	LocalDateTime start = LocalDateTime.parse(stringDates[0] + " 14:00", formatter);
+    	LocalDateTime end = LocalDateTime.parse(stringDates[1] + " 12:00", formatter);
 		List<Booking> bookings = repository.findAll().stream()
 				.filter(booking -> booking.getDateStart().isBefore(end) && booking.getDateEnd().isAfter(start))
 				.toList();
