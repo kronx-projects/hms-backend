@@ -6,8 +6,8 @@ services:
     restart: always
     container_name: db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '5435:5432'
     volumes:
@@ -23,8 +23,10 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_USERNAME=${DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
+      - TELEGRAM_API_TOKEN=${TELEGRAM_API_TOKEN}
+      - TELEGRAM_API_CHAT=${TELEGRAM_API_CHAT}
       - SERVER_SSL_ENABLED=false
 volumes:
   db:

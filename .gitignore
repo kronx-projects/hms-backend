@@ -21,3 +21,4 @@ out/
 *.iws
 
 /HELP.md
+/src/main/resources/application-local.properties
