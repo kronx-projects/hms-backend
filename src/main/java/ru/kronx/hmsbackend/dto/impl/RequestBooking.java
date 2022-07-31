@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.kronx.hmsbackend.dto.TelegramMessageDTO;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,25 +18,30 @@ public class RequestBooking implements TelegramMessageDTO {
     private static final String EMPTY_STRING = "";
     private static final int EMPTY_INT = 0;
     private static final Calendar EMPTY_CALENDAR = new GregorianCalendar(2000, 0, 01);
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Calendar dataStart;
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Calendar dataEnd;
+    @NotBlank(message = "неверное заполнение формы")
     private String numberType;
+    @NotBlank(message = "неверное заполнение формы")
     private String name;
+    @NotBlank(message = "неверное заполнение формы")
     private String surname;
     private Integer amountAdults;
     private Integer amountChildren;
+    @NotBlank(message = "неверное заполнение формы")
     private String phoneNumber;
     private String messenger;
-
     private String comment;
 
     public RequestBooking(@JsonProperty("date-start") Calendar dataStart,
                           @JsonProperty("date-end") Calendar dataEnd,
                           @JsonProperty("type") String numberType,
-                          @JsonProperty("firstName") String name,
-                          @JsonProperty("lastName") String surname,
+                          @JsonProperty("first-name") String name,
+                          @JsonProperty("last-name") String surname,
                           @JsonProperty("adults") Integer amountAdults,
                           @JsonProperty("children") Integer amountChildren,
                           @JsonProperty("phone-number") String phoneNumber,
@@ -102,7 +109,7 @@ public class RequestBooking implements TelegramMessageDTO {
         return "<b>Новый запрос на бронирование</b>" + '\n' +
                 "<b>Дата заезда: </b><i>" + getDateFormat(dataStart) + "</i>\n" +
                 "<b>Дата выезда: </b><i>" + getDateFormat(dataEnd) + "</i>\n" +
-                "<b>Тип номера: </b><i>" + getPhoneNumber() + "</i>\n" +
+                "<b>Тип номера: </b><i>" + getNumberType() + "</i>\n" +
                 "<b>Имя: </b><i>" + getName() + "</i>\n" +
                 "<b>Фамилия: </b><i>" + getSurname() + "</i>\n" +
                 "<b>Взрослых: </b><i>" + getAmountAdults() + "</i>\n" +
