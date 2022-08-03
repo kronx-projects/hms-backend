@@ -47,6 +47,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,7 +79,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>

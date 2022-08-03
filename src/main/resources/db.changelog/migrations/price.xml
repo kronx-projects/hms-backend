@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="001" author="natalia_zubareva">
+        <createTable tableName="price">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="room_type_id" type="bigint">
+                <constraints foreignKeyName="room_type_id" references="room_types(id)"/>
+            </column>
+            <column name="price" type="integer">
+            </column>
+            <column name="data_start" type="date">
+            </column>
+            <column name="data_end" type="date">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

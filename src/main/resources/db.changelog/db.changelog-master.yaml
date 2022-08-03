@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - include:
+      file: migrations/clients.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/user_data.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/room_types.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/hotel_rooms.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/booking.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/booking_request.xml
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/price.xml
+      relativeToChangeLogFile: true
