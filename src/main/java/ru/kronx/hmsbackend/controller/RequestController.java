@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class RequestController {
     @Autowired
     TelegramMessageService telegramMessageService;
-    @CrossOrigin(origins = "https://localhost:4200")
+    @CrossOrigin(origins = "https://localhost:4200, http://uyutnyj-ugolok.ru")
     @PostMapping("/new-request")
     public ResponseEntity addNewRequest(@Valid @RequestBody RequestBooking requestBooking, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
