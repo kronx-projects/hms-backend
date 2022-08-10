@@ -37,14 +37,14 @@ public class RequestBooking implements TelegramMessageDTO {
     private String messenger;
     private String comment;
 
-    public RequestBooking(@JsonProperty("date-start") Calendar dataStart,
-                          @JsonProperty("date-end") Calendar dataEnd,
+    public RequestBooking(@JsonProperty("dateStart") Calendar dataStart,
+                          @JsonProperty("dateEnd") Calendar dataEnd,
                           @JsonProperty("type") String numberType,
-                          @JsonProperty("first-name") String name,
-                          @JsonProperty("last-name") String surname,
+                          @JsonProperty("firstName") String name,
+                          @JsonProperty("lastName") String surname,
                           @JsonProperty("adults") Integer amountAdults,
                           @JsonProperty("children") Integer amountChildren,
-                          @JsonProperty("phone-number") String phoneNumber,
+                          @JsonProperty("phoneNumber") String phoneNumber,
                           @JsonProperty("messenger") String messenger,
                           @JsonProperty("comment") String comment) {
         this.dataStart = dataStart;
