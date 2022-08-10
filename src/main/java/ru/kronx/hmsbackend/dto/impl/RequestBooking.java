@@ -27,9 +27,7 @@ public class RequestBooking implements TelegramMessageDTO {
     @NotBlank(message = "неверное заполнение формы")
     private String numberType;
     @NotBlank(message = "неверное заполнение формы")
-    private String name;
-    @NotBlank(message = "неверное заполнение формы")
-    private String surname;
+    private String clientName;
     private Integer amountAdults;
     private Integer amountChildren;
     @NotBlank(message = "неверное заполнение формы")
@@ -40,7 +38,7 @@ public class RequestBooking implements TelegramMessageDTO {
     public RequestBooking(@JsonProperty("dateStart") Calendar dataStart,
                           @JsonProperty("dateEnd") Calendar dataEnd,
                           @JsonProperty("type") String numberType,
-                          @JsonProperty("firstName") String name,
+                          @JsonProperty("clientName") String clientName,
                           @JsonProperty("lastName") String surname,
                           @JsonProperty("adults") Integer amountAdults,
                           @JsonProperty("children") Integer amountChildren,
@@ -50,8 +48,7 @@ public class RequestBooking implements TelegramMessageDTO {
         this.dataStart = dataStart;
         this.dataEnd = dataEnd;
         this.numberType = numberType;
-        this.name = name;
-        this.surname = surname;
+        this.clientName = clientName;
         this.amountAdults = amountAdults;
         this.amountChildren = amountChildren;
         this.phoneNumber = phoneNumber;
@@ -71,12 +68,8 @@ public class RequestBooking implements TelegramMessageDTO {
         return Optional.ofNullable(numberType).orElse(EMPTY_STRING);
     }
 
-    public String getName() {
-        return Optional.ofNullable(name).orElse(EMPTY_STRING);
-    }
-
-    public String getSurname() {
-        return Optional.ofNullable(surname).orElse(EMPTY_STRING);
+    public String getClientName() {
+        return Optional.ofNullable(clientName).orElse(EMPTY_STRING);
     }
 
     public Integer getAmountAdults() {
@@ -110,8 +103,7 @@ public class RequestBooking implements TelegramMessageDTO {
                 "<b>Дата заезда: </b><i>" + getDateFormat(dataStart) + "</i>\n" +
                 "<b>Дата выезда: </b><i>" + getDateFormat(dataEnd) + "</i>\n" +
                 "<b>Тип номера: </b><i>" + getNumberType() + "</i>\n" +
-                "<b>Имя: </b><i>" + getName() + "</i>\n" +
-                "<b>Фамилия: </b><i>" + getSurname() + "</i>\n" +
+                "<b>Имя: </b><i>" + getClientName() + "</i>\n" +
                 "<b>Взрослых: </b><i>" + getAmountAdults() + "</i>\n" +
                 "<b>Детей: </b><i>" + getAmountChildren() + "</i>\n" +
                 "<b>Номер телефона: </b><i>" + getPhoneNumber() + "</i>\n" +
