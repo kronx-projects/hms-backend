@@ -39,7 +39,6 @@ public class RequestBooking implements TelegramMessageDTO {
                           @JsonProperty("dateEnd") Calendar dataEnd,
                           @JsonProperty("type") String numberType,
                           @JsonProperty("clientName") String clientName,
-                          @JsonProperty("lastName") String surname,
                           @JsonProperty("adults") Integer amountAdults,
                           @JsonProperty("children") Integer amountChildren,
                           @JsonProperty("phoneNumber") String phoneNumber,
