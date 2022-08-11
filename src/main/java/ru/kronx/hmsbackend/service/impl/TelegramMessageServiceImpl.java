@@ -11,9 +11,9 @@ import ru.kronx.hmsbackend.service.TelegramMessageService;
 public class TelegramMessageServiceImpl implements TelegramMessageService {
 
     private RestTemplate restTemplate;
-    @Value("5528005416:AAFGhsQNkGSZ-L8OEwxT-VyL1kadM-ixkYc")
+    @Value("${telegram.api.token}")
     private String token;
-    @Value("418616596")
+    @Value("${telegram.api.chat}")
     private String chatId;
     private String url;
 

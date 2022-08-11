@@ -6,11 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "telegram.api")
+@ConfigurationProperties(prefix = "allowed")
 @Getter
 @Setter
-public class TelegramConfiguration {
-
-    private String token;
-    private String chat;
+public class AllowedHostConfiguration {
+    private String origin;
 }
