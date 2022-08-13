@@ -1,6 +1,7 @@
 package ru.kronx.hmsbackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.kronx.hmsbackend.entity.Booking;
 import ru.kronx.hmsbackend.entity.Client;
@@ -9,14 +10,21 @@ import ru.kronx.hmsbackend.repo.*;
 import ru.kronx.hmsbackend.service.dto.*;
 import ru.kronx.hmsbackend.service.utils.OperationModify;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
 	private static final Long EMPTY_DEFAULT_ID = 0L;
+	
+	@Value("${spring.time.checkin}")
+	private Long checkin;
+	
+	@Value("${spring.time.checkout}")
+	private Long checkout;
 	
     @Autowired
     private BookingRepository repository;
@@ -47,11 +55,9 @@ public class BookingService {
     }
     
 
-    public List<ClientBookingsDTO> findByDateBetweenStartAndEnd(String dates) throws BookingsEmptyException {
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    	String[] stringDates = dates.split("[ %,]");
-    	LocalDateTime start = LocalDateTime.parse(stringDates[0] + " 14:00", formatter);
-    	LocalDateTime end = LocalDateTime.parse(stringDates[1] + " 12:00", formatter);
+    public List<ClientBookingsDTO> findByDateBetweenStartAndEnd(Long dateStart, Long dateEnd) throws BookingsEmptyException {
+    	LocalDateTime start = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateStart + checkin), ZoneOffset.UTC);
+    	LocalDateTime end = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateEnd + checkout), ZoneOffset.UTC);
 		List<Booking> bookings = repository.findAll().stream()
 				.filter(booking -> booking.getDateStart().isBefore(end) && booking.getDateEnd().isAfter(start))
 				.collect(Collectors.toList());
@@ -112,5 +118,13 @@ public class BookingService {
         if (booking.getDateEnd() == null) {
             throw new EmptyRequeredFieldException("Укажите дату выезда");
         }
+    }
+    
+    public Long getCheckin() {
+    	return checkin;
+    }
+    
+    public Long getCheckout() {
+    	return checkout;
     }
 }

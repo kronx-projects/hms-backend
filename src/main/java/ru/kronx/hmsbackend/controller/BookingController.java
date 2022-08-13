@@ -5,11 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kronx.hmsbackend.entity.*;
 import ru.kronx.hmsbackend.exception.*;
-import ru.kronx.hmsbackend.exception.EmptyRequeredFieldException;
-import ru.kronx.hmsbackend.exception.NoEntityException;
 import ru.kronx.hmsbackend.service.BookingService;
 import ru.kronx.hmsbackend.service.dto.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -48,10 +47,10 @@ public class BookingController {
     	}
     }
     
-    @GetMapping("/dates/{dates}")
-    public ResponseEntity<List<ClientBookingsDTO>> findByDates(@PathVariable String dates) {
+    @GetMapping("/find")
+    public ResponseEntity<List<ClientBookingsDTO>> findByDates(@RequestParam("start") Long start, @RequestParam("end") Long end) {
     	try {
-    		return ResponseEntity.ok(service.findByDateBetweenStartAndEnd(dates));
+    		return ResponseEntity.ok(service.findByDateBetweenStartAndEnd(start, end));
     	} catch (BookingsEmptyException e) {
     		return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     	}
@@ -88,5 +87,15 @@ public class BookingController {
             return new ResponseEntity<String>("Удаление не произошло, Нет  id =" + id, HttpStatus.NOT_FOUND);
         }
 
+    }
+    
+    @GetMapping("/checkin")
+    public ResponseEntity<Long> getCheckin() {
+	    return ResponseEntity.ok(service.getCheckin());
+    }
+    
+    @GetMapping("/checkout")
+    public ResponseEntity<Long> getCheckout() {
+	    return ResponseEntity.ok(service.getCheckout());
     }
 }
